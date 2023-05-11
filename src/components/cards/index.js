@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function CardTicket({ id, name, price, setTicketPrice, setTicketId }) {
+export default function CardTicket({ id, name, price, setTicketPrice, setTicketId, selectedCardType, setSelectedCardType }) {
+  const isSelected = selectedCardType === id;
   const [ bColor, setBcolor ] = useState('#ffff');
   function cardClicked(id) {
     setTicketId(id);
     setTicketPrice(price);
+    setSelectedCardType(id);
     setBcolor('#FFEED2');
   };
 
   return (
-    <ConteinerCard onClick={() => cardClicked(id)} style={{ background: bColor }}>
+    <ConteinerCard onClick={() => cardClicked(id)} style={{ background: isSelected ? '#FFEED2' : '#FFFF' }}>
       <p>{name ? 'Online' : 'Presencial'}</p>
       <span>R$ {price}</span>
     </ConteinerCard>

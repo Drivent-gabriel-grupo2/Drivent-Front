@@ -7,7 +7,9 @@ import Card from '../../../components/cards/card';
 export default function Payment() {
   const [ticketId, setTicketId] = useState();
   const [ticketPrice, setTicketPrice] = useState();
-  
+  const [selectedCardId, setSelectedCardId] = useState();
+  const [selectedCardType, setSelectedCardType] = useState();
+  const [prevTicketPrice, setPrevTicketPrice ] = useState();
   const data = useTicket();
 
   return (
@@ -24,6 +26,8 @@ export default function Payment() {
               price={item.price}
               setTicketId={setTicketId}
               setTicketPrice={setTicketPrice}
+              selectedCardType={selectedCardType} 
+              setSelectedCardType={setSelectedCardType}
             />
           ))}
         </UlPrice>
@@ -40,15 +44,23 @@ export default function Payment() {
               setTicketId={setTicketId}
               setTicketPrice={setTicketPrice}
               ticketPrice = {ticketPrice} 
+              selectedCardId={selectedCardId} 
+              setSelectedCardId={setSelectedCardId}
+              prevTicketPrice={prevTicketPrice}
+              setPrevTicketPrice={setPrevTicketPrice}
             />
             <Card 
-              key={1}
-              id={1}
+              key={2}
+              id={2}
               name={'Comm Hotel'}
               price={350}
               setTicketId={setTicketId}
               setTicketPrice={setTicketPrice}
-              ticketPrice = {ticketPrice} 
+              ticketPrice = {ticketPrice}
+              selectedCardId={selectedCardId} 
+              setSelectedCardId={setSelectedCardId}
+              prevTicketPrice={prevTicketPrice}
+              setPrevTicketPrice={setPrevTicketPrice}
             />
           </UlPrice>
         </div>
