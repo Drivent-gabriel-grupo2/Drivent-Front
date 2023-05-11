@@ -1,28 +1,61 @@
-import Card from '../../../components/cards';
 import styled from 'styled-components';
+import { useTicket } from '../../../hooks/api/useTicket';
+import { useState } from 'react';
+import CardTicket from '../../../components/cards';
+import Card from '../../../components/cards/card';
 
 export default function Payment() {
+  const [ticketId, setTicketId] = useState();
+  const [ticketPrice, setTicketPrice] = useState();
+  
+  const data = useTicket();
+
   return (
     <ConteinerPayment>
       <h1>Ingresso e pagamento</h1> 
       <div>
         <p>Primeiro, escolha sua modalidade de ingresso</p>
         <UlPrice>
-          <Card/>
-          <Card/>
+          {data && data.map((item) => (
+            <CardTicket
+              key={item.id}
+              id={item.id}
+              name={item.isRemot}
+              price={item.price}
+              setTicketId={setTicketId}
+              setTicketPrice={setTicketPrice}
+            />
+          ))}
         </UlPrice>
       </div>
-      <div>
-        <p>Ótimo! Agora escolha sua modalidade de hospedagem</p>
-        <UlPrice>
-          <Card/>
-          <Card/>
-        </UlPrice>
-      </div>
-      <div>
-        <p>Fechado! O total ficou em R$ 600. Agora é só confirmar:</p>
-        <button>RESERVAR INGRESSO</button>
-      </div>
+      {ticketId && (
+        <div>
+          <p>Ótimo! Agora escolha sua modalidade de hospedagem</p>
+          <UlPrice>
+            <Card 
+              key={1}
+              id={1}
+              name={'Sem Hotel'}
+              price={0}
+              setTicketId={setTicketId}
+              setTicketPrice={setTicketPrice}
+              ticketPrice = {ticketPrice} 
+            />
+            <Card 
+              key={1}
+              id={1}
+              name={'Comm Hotel'}
+              price={350}
+              setTicketId={setTicketId}
+              setTicketPrice={setTicketPrice}
+              ticketPrice = {ticketPrice} 
+            />
+          </UlPrice>
+        </div>
+      )}
+      {ticketId && data.find((item) => item.id === ticketId)?.includedHotel !== false && (<div> <p>Fechado! O total ficou em R$ {ticketPrice}. Agora é só confirmar:</p> <button>RESERVAR INGRESSO</button></div>
+      )}
+     
     </ConteinerPayment>
   );
 }
@@ -46,7 +79,6 @@ const ConteinerPayment = styled.div`
     color: #000000;
   }
   p{
-    margin-bottom: 12px;
     font-family: 'Roboto';
     font-weight: 400;
     font-size: 20px;
