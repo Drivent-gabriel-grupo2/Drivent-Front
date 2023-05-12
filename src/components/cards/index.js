@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export default function CardTicket({ id, name, price, setTicketPrice, setTicketId, selectedCardType, setSelectedCardType }) {
   const isSelected = selectedCardType === id;
-  const [ bColor, setBcolor ] = useState('#ffff');
+  const [bColor, setBcolor] = useState('#ffff');
   function cardClicked(id) {
     setTicketId(id);
     setTicketPrice(price);
