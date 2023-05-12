@@ -15,6 +15,7 @@ import Payment from './pages/Dashboard/Payment';
 import Hotel from './pages/Dashboard/Hotel';
 import Activities from './pages/Dashboard/Activities';
 import Certificate from './pages/Dashboard/Certificate';
+import CreditCard from './pages/Dashboard/CreditCard';
 
 import { EventInfoProvider } from './contexts/EventInfoContext';
 import { UserProvider } from './contexts/UserContext';
@@ -43,10 +44,12 @@ export default function App() {
               >
                 <Route path="subscription" element={<FillSubscription />} />
                 <Route path="payment" element={<Payment />} />
+                <Route path="datacard" element={<CreditCard />} />
+
                 <Route path="hotel" element={<Hotel />} />
                 <Route path="activities" element={<Activities />} />
                 <Route path="certificate" element={<Certificate />} />
-                <Route index path="*" element={<Navigate to="/dashboard/subscription" />} />
+                {/* <Route index path="*" element={<Navigate to="/dashboard/subscription" />} /> */}
               </Route>
             </Routes>
           </Router>
