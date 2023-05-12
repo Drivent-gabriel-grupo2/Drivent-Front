@@ -1,15 +1,12 @@
 import styled from 'styled-components';
-import { useTicket } from '../../../hooks/api/useTicket';
 import { useState } from 'react';
-import CardTicket from '../../../components/cards';
-import Card from '../../../components/cards/card';
 import HotelCard from '../../../components/cards/hotel-card';
+import { useHotel } from '../../../hooks/api/useHotel';
 
-export default function Payment() {
+export default function Hotel() {
   const [hotelId, setHotelId] = useState();
   const [selectedHotel, setSelectedHotel] = useState();
-  const data = useTicket();
-
+  const data = useHotel();
   return (
     <ConteinerPayment>
       <h1>Escolha de hotel e quarto</h1>
@@ -20,10 +17,12 @@ export default function Payment() {
             <HotelCard
               key={item.id}
               id={item.id}
-              name={item.isRemot}
+              name={item.name}
+              image={item.image}
               setHotelId={setHotelId}
               selectedHotel={selectedHotel}
               setSelectedHotel={setSelectedHotel}
+              Rooms={item.Rooms}
             />
           ))}
         </UlPrice>
