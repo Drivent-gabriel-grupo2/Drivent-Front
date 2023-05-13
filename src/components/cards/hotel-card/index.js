@@ -2,20 +2,44 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 export default function HotelCard({ id, name, image, setHotelId, selectedHotel, setSelectedHotel, Rooms }) {
-    const isSelected = selectedHotel === id;    
+    const isSelected = selectedHotel === id;
     function cardClicked(id) {
         setHotelId(id);
         setSelectedHotel(id);
     };
 
+    const possibleOptions = ['Single', 'Double', 'Triple'];
+    const acomodationTypes = [];
+
+    Rooms.map((item) => {
+        if (!acomodationTypes.includes(item.capacity)) acomodationTypes.push(item.capacity);
+    });
+
+    acomodationTypes.sort((a, b) => {
+        if (a > b) return 1;
+        if (a < b) return -1;
+        return 0;
+    });
+
+    for (let i = 0; i < acomodationTypes.length; i++) {
+        acomodationTypes[i] = possibleOptions[acomodationTypes[i] - 1];
+    }
+
+    let string = '';
+
+    if (acomodationTypes.length < 3) string = acomodationTypes.join(' e ');
+    else {
+        string = `${acomodationTypes[0]}, ${acomodationTypes[1]} e ${acomodationTypes[2]}`;
+    }
+
     return (
         <ConteinerCard onClick={() => cardClicked(id)} style={{ background: isSelected ? '#FFEED2' : '#EBEBEB' }}>
             <img src={image}></img>
             <p>{name}</p>
-            <span>Tipos de acomodação:</span>
-            <h2>Single e Double</h2>
+            <h3>Tipos de acomodação:</h3>
+            <h2>{string}</h2>
             <span>Vagas disponíveis:</span>
-            <h2>{Rooms[2].capacity}</h2>
+            <h2>Em breve</h2>
         </ConteinerCard>
     );
 }
@@ -35,7 +59,6 @@ const ConteinerCard = styled.div`
       margin-top:2px;
       margin-bottom:10px;
     }
-
     p{
       font-family: 'Roboto';
       font-weight: 400;
@@ -44,7 +67,8 @@ const ConteinerCard = styled.div`
       margin-bottom:10px;
       margin-left:1px;
     }
-   span{
+   h3{
+      all:unset;
       font-family: 'Roboto';
       font-size: 12px;
       font-weight: 700;
