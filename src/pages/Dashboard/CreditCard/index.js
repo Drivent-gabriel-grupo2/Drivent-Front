@@ -4,11 +4,25 @@ import { useState } from 'react';
 import ConfirmedBox from '../../../components/ConfirmedBox';
 import CardBox from '../../../components/CreditCardBox';
 import styled from 'styled-components';
+import TicketContext from '../../../contexts/TicketContext';
+import { useContext } from 'react';
+import { useEffect } from 'react';
 import { useTickets } from '../../../hooks/api/useTicket';
 
 export default function CreditCard() {
     const [confirmedPayment, setConfirmedPayment] = useState(false);
-    const ticket = useTickets();
+    const {ticket: storedTicket} = useContext(TicketContext);
+    let ticket;
+    if(!storedTicket){
+        ticket = useTickets();
+    } else{
+        ticket = storedTicket;
+    }
+    useEffect(() => {
+        if (ticket?.status === 'PAID') {
+            setConfirmedPayment(true);
+        }
+    }, []);
 
     return (
         <Container>

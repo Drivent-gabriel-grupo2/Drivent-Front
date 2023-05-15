@@ -11,13 +11,19 @@ export async function getTicketTypes(token) {
 }
 
 export async function getTickets(token) {
-    const response = await api.get('/tickets', {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    try {
+        const response = await api.get('/tickets', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-    return response.data;
+        return response.data;
+    } catch (e) {
+        if (e.response.status === 404) {
+            return null;
+        }
+    }
 }
 
 export async function postTicket(token, ticketTypeId) {
