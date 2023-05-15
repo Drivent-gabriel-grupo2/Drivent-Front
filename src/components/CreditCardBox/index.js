@@ -11,7 +11,7 @@ export default function CardBox({ setConfirmedPayment }) {
   const [cardCvv, setCardCvv] = useState('');
   const [cardExpiracy, setCardExpiracy] = useState('');
   const [focus, setFocus] = useState('');
-  const { selectedTicket } = useContext(TicketContext);
+  const { ticket } = useContext(TicketContext);
   let issuer;
 
   async function toSendDataCard() {
@@ -37,7 +37,7 @@ export default function CardBox({ setConfirmedPayment }) {
     setCardExpiracy('');
     setCardCvv('');
     try {
-      await paymentApi.postCreditCardData(selectedTicket.id, cardData);
+      await paymentApi.postCreditCardData(ticket.id, cardData);
       setConfirmedPayment(true);
     } catch (error) {
       alert(error.message);
