@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CardTicket from '../../../components/cards';
 import Card from '../../../components/cards/card';
-import { useContext } from 'react';
-import TicketContext from '../../../contexts/TicketProvider';
 import { postTicket } from '../../../services/ticktsApi';
 import useToken from '../../../hooks/useToken';
 
@@ -13,27 +11,26 @@ export default function Payment() {
     const [selectedCardId, setSelectedCardId] = useState();
     const [selectedInPerson, setSelectedInPerson] = useState(false);
     const [selectedCardType, setSelectedCardType] = useState();
-    const { selectedTicket, setSelectedTicket, setTicket } = useContext(TicketContext);
-    const { loading, setLoading } = useState(false);
+    const [selectedTicket, setSelectedTicket] = useState(null);
+    const [loading, setLoading] = useState(false);
     // eslint-disable-next-line
     const data = useTicketTypes();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         const ticketTypeId = selectedTicket.id;
         setLoading(true);
         try {
             const token = useToken();
-            const ticket = await postTicket(token,ticketTypeId);
-            setTicket(ticket);
+            await postTicket(token, ticketTypeId);
             navigate('/dashboard/datacard');
-        } catch(e){
+        } catch (e) {
             console.log(e);
             alert('Erro ao enviar dados');
             setLoading(false);
         }
-    }
+    };
 
     const DATA = [
         {
@@ -94,7 +91,7 @@ export default function Payment() {
                         {inPerson.map((item) => (
                             <Card
                                 key={item.id}
-                                ticket = {item}
+                                ticket={item}
                                 price={item.price - basePrice}
                                 selectedCardId={selectedCardId}
                                 setSelectedCardId={setSelectedCardId}
@@ -105,14 +102,13 @@ export default function Payment() {
                     </UlPrice>
                 </div>
             )}
-            {(selectedTicket && (selectedTicket?.isRemote || selectedInPerson)) && (
+            {selectedTicket && (selectedTicket?.isRemote || selectedInPerson) && (
                 <div>
                     {' '}
                     <p>Fechado! O total ficou em R$ {selectedTicket.price}. Agora é só confirmar:</p>{' '}
-                    <button
-                      onClick={handleSubmit}
-                      disabled={loading}
-                    >{loading? 'Carregando' : 'RESERVAR INGRESSO'}</button>
+                    <button onClick={handleSubmit} disabled={loading}>
+                        {loading ? 'Carregando' : 'RESERVAR INGRESSO'}
+                    </button>
                 </div>
             )}
         </ConteinerPayment>
@@ -131,7 +127,7 @@ const ConteinerPayment = styled.div`
         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
         border-radius: 4px;
         margin-top: 20px;
-        &:disabled{
+        &:disabled {
             background: #8e8e8e;
         }
     }

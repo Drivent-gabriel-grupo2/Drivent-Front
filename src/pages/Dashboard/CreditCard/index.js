@@ -1,14 +1,14 @@
 //componente a ser renderizado quando apertado o botão na tela anterior
 /* eslint-disable */
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import ConfirmedBox from '../../../components/ConfirmedBox';
 import CardBox from '../../../components/CreditCardBox';
 import styled from 'styled-components';
-import TicketContext from '../../../contexts/TicketProvider';
+import { useTickets } from '../../../hooks/api/useTicket';
 
 export default function CreditCard() {
     const [confirmedPayment, setConfirmedPayment] = useState(false);
-    const { selectedTicket } = useContext(TicketContext);
+    const ticket = useTickets();
 
     return (
         <Container>
@@ -17,19 +17,17 @@ export default function CreditCard() {
                 <p>Ingresso Escolhido</p>
                 <div>
                     <h1>
-                        {selectedTicket.isRemote
+                        {ticket.TicketType.isRemote
                             ? 'Online'
-                            : selectedTicket.includesHotel
+                            : ticket.TicketType.includesHotel
                             ? 'Presencial + Com Hotel'
                             : 'Presencial + Sem Hotel'}
                     </h1>
-                    <p>
-                      R$ {selectedTicket.price}
-                    </p>
+                    <p>R$ {ticket.TicketType.price}</p>
                 </div>
             </TicketInfo>
             {confirmedPayment && <ConfirmedBox />}
-            {!confirmedPayment && <CardBox setConfirmedPayment={setConfirmedPayment} />}
+            {!confirmedPayment && <CardBox ticket={ticket} setConfirmedPayment={setConfirmedPayment} />}
         </Container>
     );
 }
