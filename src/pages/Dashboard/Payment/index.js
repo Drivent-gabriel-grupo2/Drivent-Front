@@ -6,15 +6,34 @@ import CardTicket from '../../../components/cards';
 import Card from '../../../components/cards/card';
 import { useContext } from 'react';
 import TicketContext from '../../../contexts/TicketProvider';
+import { postTicket } from '../../../services/ticktsApi';
+import useToken from '../../../hooks/useToken';
 
 export default function Payment() {
     const [selectedCardId, setSelectedCardId] = useState();
     const [selectedInPerson, setSelectedInPerson] = useState(false);
     const [selectedCardType, setSelectedCardType] = useState();
-    const { selectedTicket, setSelectedTicket } = useContext(TicketContext);
+    const { selectedTicket, setSelectedTicket, setTicket } = useContext(TicketContext);
+    const { loading, setLoading } = useState(false);
     // eslint-disable-next-line
     const data = useTicket();
     const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const ticketTypeId = selectedTicket.id;
+        setLoading(true);
+        try {
+            const token = useToken();
+            const ticket = await postTicket(token,ticketTypeId);
+            setTicket(ticket);
+            navigate('/dashboard/datacard');
+        } catch(e){
+            console.log(e);
+            alert('Erro ao enviar dados');
+            setLoading(false);
+        }
+    }
 
     const DATA = [
         {
@@ -91,7 +110,7 @@ export default function Payment() {
                     {' '}
                     <p>Fechado! O total ficou em R$ {selectedTicket.price}. Agora é só confirmar:</p>{' '}
                     <button
-                      onClick={() => navigate('/dashboard/datacard')}
+                      onClick={handleSubmit}
                     >RESERVAR INGRESSO</button>
                 </div>
             )}
