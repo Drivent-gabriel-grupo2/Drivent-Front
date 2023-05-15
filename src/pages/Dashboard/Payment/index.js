@@ -18,6 +18,7 @@ export default function Payment() {
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const { setTicket, setTicketType } = useContext(TicketContext);
     const data = useTicketTypes();
     const ticket = useTickets();
     const navigate = useNavigate();
@@ -37,6 +38,9 @@ export default function Payment() {
 
     useEffect(() => {
         if (ticket) {
+            setTicket(ticket);
+            const ticketType = data?.find((item) => item.id === ticket.ticketTypeId);
+            setTicketType(ticketType);
             navigate('/dashboard/datacard');
         }
     }, [ticket, navigate]);
