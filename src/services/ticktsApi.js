@@ -23,13 +23,12 @@ export async function getTickets(token) {
 export async function postTicket(token, ticketTypeId) {
     const response = await api.post(
         '/tickets',
-        {},
+        { ticketTypeId },
         {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-        },
-        { ticketTypeId }
+        }
     );
 
     return response.data;
