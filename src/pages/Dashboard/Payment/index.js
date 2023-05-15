@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useTicket } from '../../../hooks/api/useTicket';
+import { useTicketTypes } from '../../../hooks/api/useTicket';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CardTicket from '../../../components/cards';
@@ -16,7 +16,7 @@ export default function Payment() {
     const { selectedTicket, setSelectedTicket, setTicket } = useContext(TicketContext);
     const { loading, setLoading } = useState(false);
     // eslint-disable-next-line
-    const data = useTicket();
+    const data = useTicketTypes();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -111,7 +111,8 @@ export default function Payment() {
                     <p>Fechado! O total ficou em R$ {selectedTicket.price}. Agora é só confirmar:</p>{' '}
                     <button
                       onClick={handleSubmit}
-                    >RESERVAR INGRESSO</button>
+                      disabled={loading}
+                    >{loading? 'Carregando' : 'RESERVAR INGRESSO'}</button>
                 </div>
             )}
         </ConteinerPayment>
@@ -130,6 +131,9 @@ const ConteinerPayment = styled.div`
         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
         border-radius: 4px;
         margin-top: 20px;
+        &:disabled{
+            background: #8e8e8e;
+        }
     }
     h1 {
         font-family: 'Roboto', sans-serif;
