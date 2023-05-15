@@ -1,30 +1,41 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HotelCard from '../../../components/cards/hotel-card';
-import { useHotel } from '../../../hooks/api/useHotel';
+import { useHotel } from '../../../hooks/api/useHotel.js';
 
 export default function Hotel() {
   const [hotelId, setHotelId] = useState();
   const [selectedHotel, setSelectedHotel] = useState();
-  const data = useHotel();
+  const hotels = useHotel();
+
+  if (hotels === null) return (
+    <ConteinerPayment>
+      <h1>Escolha de hotel e quarto</h1>
+      <div>
+        <p>Efetue o pagamento do seu ticket para visualizar os Hotéis</p>
+      </div>
+    </ConteinerPayment>
+  );
   return (
     <ConteinerPayment>
       <h1>Escolha de hotel e quarto</h1>
       <div>
         <p>Primeiro, escolha seu hotel</p>
         <UlPrice>
-          {data && data.map((item) => (
-            <HotelCard
-              key={item.id}
-              id={item.id}
-              name={item.name}
-              image={item.image}
-              setHotelId={setHotelId}
-              selectedHotel={selectedHotel}
-              setSelectedHotel={setSelectedHotel}
-              Rooms={item.Rooms}
-            />
-          ))}
+          {
+            hotels && hotels.map((item) => (
+              <HotelCard
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                image={item.image}
+                setHotelId={setHotelId}
+                selectedHotel={selectedHotel}
+                setSelectedHotel={setSelectedHotel}
+                Rooms={item.Rooms}
+              />
+            ))
+          }
         </UlPrice>
       </div>
       {hotelId && (
