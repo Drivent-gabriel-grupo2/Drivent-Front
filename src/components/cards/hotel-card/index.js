@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 export default function HotelCard({ id, name, image, setHotelId, selectedHotel, setSelectedHotel, Rooms }) {
@@ -38,7 +37,7 @@ export default function HotelCard({ id, name, image, setHotelId, selectedHotel, 
             <p>{name}</p>
             <h3>Tipos de acomodação:</h3>
             <h2>{string}</h2>
-            <span>Vagas disponíveis:</span>
+            <h3>Vagas disponíveis:</h3>
             <h2>Em breve</h2>
         </ConteinerCard>
     );
@@ -48,6 +47,7 @@ const ConteinerCard = styled.div`
     display: flex;
     box-sizing:border-box;
     padding:14px;
+    margin-top:18px;
     flex-direction: column;
     width: 196px;
     height: 264px;

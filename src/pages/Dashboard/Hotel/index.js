@@ -1,32 +1,45 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import HotelCard from '../../../components/cards/hotel-card';
+import RoomCard from '../../../components/cards/room-card';
 import { useHotel } from '../../../hooks/api/useHotel.js';
 
 export default function Hotel() {
   const [hotelId, setHotelId] = useState();
   const [selectedHotel, setSelectedHotel] = useState();
+  const [roomId, setRoomId] = useState();
+  const [selectedRoom, setSelectedRoom] = useState();
   const hotels = useHotel();
+
+  var rooms = [];
+  if (hotelId && hotels) {
+    for (let i = 0; i < hotels.length; i++) {
+      if (hotels[i].id === hotelId) {
+        rooms = hotels[i].Rooms;
+      }
+    }
+  }
 
   if (hotels === null) return (
     <ConteinerPayment>
       <h1>Escolha de hotel e quarto</h1>
-      <div>
+      <Spacing>
         <p>Efetue o pagamento do seu ticket para visualizar os Hotéis</p>
-      </div>
+      </Spacing>
     </ConteinerPayment>
   );
   return (
     <ConteinerPayment>
       <h1>Escolha de hotel e quarto</h1>
-      <div>
+      <Spacing>
         <p>Primeiro, escolha seu hotel</p>
-        <UlPrice>
+        <UlHotel>
           {
-            hotels && hotels.map((item) => (
+            hotels && hotels.map((item, index) => (
               <HotelCard
                 key={item.id}
                 id={item.id}
+                position={index}
                 name={item.name}
                 image={item.image}
                 setHotelId={setHotelId}
@@ -36,24 +49,30 @@ export default function Hotel() {
               />
             ))
           }
-        </UlPrice>
-      </div>
+        </UlHotel>
+      </Spacing>
       {hotelId && (
-        <div>
-          <p>Ótimo! Agora escolha sua modalidade de hospedagem</p>
-          <UlPrice>
-
-          </UlPrice>
-        </div>
+        <Spacing>
+          <p>Ótima pedida! Agora escolha seu quarto:</p>
+          <UlRoom>
+            {rooms && rooms.map((item, index) => (
+              <RoomCard
+                id={item.id}
+                name={item.name}
+                capacity={item.capacity}
+                selectedRoom={selectedRoom}
+                setSelectedRoom={setSelectedRoom}
+              />
+            ))}
+          </UlRoom>
+        </Spacing>
       )}
     </ConteinerPayment>
   );
 }
 
 const ConteinerPayment = styled.div`
-  div{
-    margin: 30px 0px 0px 0px;
-  }
+ 
   button{
     width: 162px;
     height: 37px;
@@ -76,7 +95,20 @@ const ConteinerPayment = styled.div`
   }
 `;
 
-const UlPrice = styled.ul`
-  display: flex;
-  gap: 24px
+const Spacing = styled.div`
+  margin: 30px 0px 0px 0px;
 `;
+
+const UlHotel = styled.ul`
+  display: flex;
+  gap: 17px
+`;
+
+const UlRoom = styled.ul`
+  width:815px;
+  margin-top:33px;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 17px
+  `;
