@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import paymentApi from '../../services/paymentApi';
+import TicketContext from '../../contexts/TicketProvider';
 
 export default function CardBox({ setConfirmedPayment }) {
   const [cardName, setcardName] = useState('');
@@ -10,6 +11,7 @@ export default function CardBox({ setConfirmedPayment }) {
   const [cardCvv, setCardCvv] = useState('');
   const [cardExpiracy, setCardExpiracy] = useState('');
   const [focus, setFocus] = useState('');
+  const { selectedTicket } = useContext(TicketContext);
   let issuer;
 
   async function toSendDataCard() {
@@ -35,7 +37,7 @@ export default function CardBox({ setConfirmedPayment }) {
     setCardExpiracy('');
     setCardCvv('');
     try {
-      await paymentApi.postCreditCardData(ticketId, cardData);
+      await paymentApi.postCreditCardData(selectedTicket.id, cardData);
       setConfirmedPayment(true);
     } catch (error) {
       alert(error.message);
