@@ -1,38 +1,25 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 export default function Card({
-  id,
-  name,
+  ticket,
   price,
-  setTicketPrice,
-  setTicketId,
-  ticketPrice,
   selectedCardId,
   setSelectedCardId,
-  prevTicketPrice,
-  setPrevTicketPrice,
+  setSelectedInPerson,
+  setSelectedTicket
 }) {
-  const isSelected = selectedCardId === id;
-  const [bColor, setBcolor] = useState(isSelected ? '#FFEED2' : '#FFFF');
+  const isSelected = selectedCardId === ticket.id;
 
-  function cardClicked(id) {
-    setSelectedCardId(id);
-    setBcolor('#FFEED2');
-
-    if (prevTicketPrice) {
-      setTicketPrice((prevTicketPrice) => prevTicketPrice - 350 + price);
-    } else {
-      setTicketPrice((prevTicketPrice) => prevTicketPrice + price);
-    }
-    setPrevTicketPrice(price);
-    setTicketId(id);
+  function cardClicked(ticket) {
+    setSelectedInPerson(true);
+    setSelectedCardId(ticket.id);
+    setSelectedTicket(ticket);
   }
 
   return (
-    <ConteinerCard onClick={() => cardClicked(id)} style={{ background: isSelected ? '#FFEED2' : '#FFFF' }}>
-      <p>{name}</p>
-      <span>R$ + {price}</span>
+    <ConteinerCard onClick={() => cardClicked(ticket)} style={{ background: isSelected ? '#FFEED2' : '#FFFF' }}>
+      <p>{ticket.includesHotel ? 'Com Hotel' : 'Sem Hotel'}</p>
+      <span>+ R$ {price}</span>
     </ConteinerCard>
   );
 }
