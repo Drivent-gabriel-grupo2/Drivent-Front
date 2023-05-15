@@ -1,6 +1,6 @@
 import useAsync from '../useAsync';
 import useToken from '../useToken';
-import { getTicketTypes } from '../../services/ticktsApi';
+import { getTicketTypes, getTickets } from '../../services/ticktsApi';
 
 export function useTicketTypes() {
   const token = useToken();
@@ -8,3 +8,10 @@ export function useTicketTypes() {
 
   if(!ticketsTypes.loading) return ticketsTypes.data;
 };
+
+export function useTickets(){
+  const token = useToken();
+  const tickets = useAsync(() => getTickets(token));
+
+  if(!tickets.loading) return tickets.data;
+}
