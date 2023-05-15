@@ -12,7 +12,14 @@ export default function Hotel() {
     const [selectedHotel, setSelectedHotel] = useState();
     const [roomId, setRoomId] = useState();
     const [selectedRoom, setSelectedRoom] = useState();
-    const { ticketType } = useContext(TicketContext);
+    const { ticketType, ticket } = useContext(TicketContext);
+    
+    if (ticket?.status !== 'PAID') {
+        return (
+            <ErrorScreen message="Erro: Ingresso não pago." details="Você deve realizar o pagamento de seu ingresso." />
+        );
+    }
+
     if (ticketType?.isRemote || !ticketType?.includesHotel) {
         return (
             <ErrorScreen

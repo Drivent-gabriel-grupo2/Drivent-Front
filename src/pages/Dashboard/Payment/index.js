@@ -43,15 +43,6 @@ export default function Payment() {
         }
     };
 
-    if (error) {
-        return (
-            <ErrorScreen
-                message="Erro: Inscrição não finalizada"
-                details="Você deve concluir o preenchimento de seus dados na aba 'Inscrição' ao lado"
-            />
-        );
-    }
-
     if (ticketRequest) {
         const ticketType = data?.filter((item) => item.id === ticketRequest.ticketTypeId)[0];
         setTicket(ticketRequest);
@@ -67,6 +58,15 @@ export default function Payment() {
     const withoutHotel = data?.filter((item) => item.includesHotel === false);
     const inPerson = data?.filter((item) => item.isRemote === false);
     const basePrice = inPerson?.filter((item) => item.includesHotel === false)[0].price;
+
+    if (error) {
+        return (
+            <ErrorScreen
+                message="Erro: Inscrição não finalizada"
+                details="Você deve concluir o preenchimento de seus dados na aba 'Inscrição' ao lado"
+            />
+        );
+    }
 
     return (
         <ConteinerPayment>
