@@ -1,11 +1,15 @@
 import styled from 'styled-components';
-import { useTicketTypes } from '../../../hooks/api/useTicket';
+import { useTicketTypes, useTickets } from '../../../hooks/api/useTicket';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CardTicket from '../../../components/cards';
 import Card from '../../../components/cards/card';
 import { postTicket } from '../../../services/ticktsApi';
 import useToken from '../../../hooks/useToken';
+import ErrorScreen from '../../../components/ErrorScreen';
+import TicketContext from '../../../contexts/TicketContext';
+import { useContext } from 'react';
+import { useEffect } from 'react';
 
 export default function Payment() {
     const [selectedCardId, setSelectedCardId] = useState();
@@ -13,11 +17,11 @@ export default function Payment() {
     const [selectedCardType, setSelectedCardType] = useState();
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [loading, setLoading] = useState(false);
-    // eslint-disable-next-line
+    const [error, setError] = useState(false);
     const data = useTicketTypes();
+    const ticket = useTickets();
     const navigate = useNavigate();
     const token = useToken();
-
     const handleSubmit = async(e) => {
         e.preventDefault();
         const ticketTypeId = selectedTicket.id;
@@ -26,14 +30,29 @@ export default function Payment() {
             await postTicket(token, ticketTypeId);
             navigate('/dashboard/datacard');
         } catch (e) {
-            alert('Erro ao enviar dados');
             setLoading(false);
+            setError(true);
         }
     };
+
+    useEffect(() => {
+        if (ticket) {
+            navigate('/dashboard/datacard');
+        }
+    }, [ticket, navigate]);
 
     const withoutHotel = data?.filter((item) => item.includesHotel === false);
     const inPerson = data?.filter((item) => item.isRemote === false);
     const basePrice = inPerson?.filter((item) => item.includesHotel === false)[0].price;
+
+    if (error) {
+        return (
+            <ErrorScreen
+                message="Erro: Inscrição não finalizada"
+                details="Você deve concluir o preenchimento de seus dados na aba 'Inscrição' ao lado"
+            />
+        );
+    }
 
     return (
         <ConteinerPayment>
