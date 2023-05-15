@@ -11,18 +11,13 @@ import { useTickets } from '../../../hooks/api/useTicket';
 
 export default function CreditCard() {
     const [confirmedPayment, setConfirmedPayment] = useState(false);
-    const {ticket: storedTicket} = useContext(TicketContext);
-    let ticket;
-    if(!storedTicket){
-        ticket = useTickets();
-    } else{
-        ticket = storedTicket;
-    }
+    const ticket = useTickets();
+    console.log(ticket);
     useEffect(() => {
         if (ticket?.status === 'PAID') {
             setConfirmedPayment(true);
         }
-    }, []);
+    }, [ticket]);
 
     return (
         <Container>

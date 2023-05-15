@@ -20,9 +20,7 @@ export async function getTickets(token) {
 
         return response.data;
     } catch (e) {
-        if (e.response.status === 404) {
-            return null;
-        }
+        return null;
     }
 }
 

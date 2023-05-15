@@ -19,17 +19,9 @@ export default function Payment() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const data = useTicketTypes();
-    let ticketRequest;
-    const { ticket, setTicket, setTicketType } = useContext(TicketContext);
+    const ticket = useTickets();
     const navigate = useNavigate();
     const token = useToken();
-
-    try {
-        ticketRequest = useTickets();
-    } catch (e) {
-        ticketRequest = undefined;
-    }
-
     const handleSubmit = async(e) => {
         e.preventDefault();
         const ticketTypeId = selectedTicket.id;
@@ -42,12 +34,6 @@ export default function Payment() {
             setError(true);
         }
     };
-
-    if (ticketRequest) {
-        const ticketType = data?.filter((item) => item.id === ticketRequest.ticketTypeId)[0];
-        setTicket(ticketRequest);
-        setTicketType(ticketType);
-    }
 
     useEffect(() => {
         if (ticket) {
