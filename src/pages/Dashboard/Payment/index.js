@@ -16,55 +16,24 @@ export default function Payment() {
     // eslint-disable-next-line
     const data = useTicketTypes();
     const navigate = useNavigate();
+    const token = useToken();
 
     const handleSubmit = async(e) => {
         e.preventDefault();
         const ticketTypeId = selectedTicket.id;
         setLoading(true);
         try {
-            const token = useToken();
             await postTicket(token, ticketTypeId);
             navigate('/dashboard/datacard');
         } catch (e) {
-            console.log(e);
             alert('Erro ao enviar dados');
             setLoading(false);
         }
     };
 
-    const DATA = [
-        {
-            id: 1,
-            name: 'Ingresso presencial com hotel',
-            price: 500,
-            includesHotel: true,
-            isRemote: false,
-            createdAt: '2021-09-01T00:00:00.000Z',
-            updatedAt: '2021-09-01T00:00:00.000Z',
-        },
-        {
-            id: 2,
-            name: 'Ingresso remoto',
-            price: 250,
-            includesHotel: false,
-            isRemote: true,
-            createdAt: '2021-09-01T00:00:00.000Z',
-            updatedAt: '2021-09-01T00:00:00.000Z',
-        },
-        {
-            id: 3,
-            name: 'Ingresso presencial sem hotel',
-            price: 350,
-            includesHotel: false,
-            isRemote: false,
-            createdAt: '2021-09-01T00:00:00.000Z',
-            updatedAt: '2021-09-01T00:00:00.000Z',
-        },
-    ];
-
-    const withoutHotel = DATA.filter((item) => item.includesHotel === false);
-    const inPerson = DATA.filter((item) => item.isRemote === false);
-    const basePrice = inPerson.filter((item) => item.includesHotel === false)[0].price;
+    const withoutHotel = data?.filter((item) => item.includesHotel === false);
+    const inPerson = data?.filter((item) => item.isRemote === false);
+    const basePrice = inPerson?.filter((item) => item.includesHotel === false)[0].price;
 
     return (
         <ConteinerPayment>
@@ -72,7 +41,7 @@ export default function Payment() {
             <div>
                 <p>Primeiro, escolha sua modalidade de ingresso</p>
                 <UlPrice>
-                    {DATA &&
+                    {data &&
                         withoutHotel.map((item) => (
                             <CardTicket
                                 key={item.id}

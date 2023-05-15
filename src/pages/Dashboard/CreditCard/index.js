@@ -17,13 +17,13 @@ export default function CreditCard() {
                 <p>Ingresso Escolhido</p>
                 <div>
                     <h1>
-                        {ticket.TicketType.isRemote
+                        {ticket?.TicketType.isRemote
                             ? 'Online'
-                            : ticket.TicketType.includesHotel
+                            : ticket?.TicketType.includesHotel
                             ? 'Presencial + Com Hotel'
                             : 'Presencial + Sem Hotel'}
                     </h1>
-                    <p>R$ {ticket.TicketType.price}</p>
+                    <p>R$ {ticket?.TicketType.price}</p>
                 </div>
             </TicketInfo>
             {confirmedPayment && <ConfirmedBox />}
