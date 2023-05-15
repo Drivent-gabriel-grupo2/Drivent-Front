@@ -9,5 +9,8 @@ export function useHotel() {
   try {
     hotels = useAsync(() => hotelApi.getHotels(token));
     if (!hotels.loading) return hotels.data;
-  } catch (err) { console.log(err); }
+  } catch (err) { 
+    // eslint-disable-next-line no-console
+    console.log(err);
+   }
 };
