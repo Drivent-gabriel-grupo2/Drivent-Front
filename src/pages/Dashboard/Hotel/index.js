@@ -35,17 +35,13 @@ export default function Hotel() {
         <p>Primeiro, escolha seu hotel</p>
         <UlHotel>
           {
-            hotels && hotels.map((item, index) => (
+            hotels && hotels.map((item) => (
               <HotelCard
                 key={item.id}
-                id={item.id}
-                position={index}
-                name={item.name}
-                image={item.image}
+                hotel={item}
                 setHotelId={setHotelId}
                 selectedHotel={selectedHotel}
                 setSelectedHotel={setSelectedHotel}
-                Rooms={item.Rooms}
               />
             ))
           }
