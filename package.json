@@ -43,7 +43,6 @@
     "rules": {
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": "off",
-    
       "linebreak-style": 0,
       "quotes": [
         "error",

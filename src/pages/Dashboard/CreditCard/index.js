@@ -7,12 +7,12 @@ import styled from 'styled-components';
 import TicketContext from '../../../contexts/TicketContext';
 import { useContext } from 'react';
 import { useEffect } from 'react';
-import { useTicketTypes, useTickets } from '../../../hooks/api/useTicket';
+import { useTicketTypes, useTicket } from '../../../hooks/api/useTicket';
 
 export default function CreditCard() {
     const [confirmedPayment, setConfirmedPayment] = useState(false);
     const { setTicket, setTicketType } = useContext(TicketContext);
-    const ticket = useTickets();
+    const ticket = useTicket();
     const ticketTypes = useTicketTypes();
     useEffect(() => {
         if (ticket) {

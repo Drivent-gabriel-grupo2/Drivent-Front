@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useTicketTypes, useTickets } from '../../../hooks/api/useTicket';
+import { useTicketTypes, useTicket } from '../../../hooks/api/useTicket';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CardTicket from '../../../components/cards';
@@ -20,7 +20,7 @@ export default function Payment() {
     const [error, setError] = useState(false);
     const { setTicket, setTicketType } = useContext(TicketContext);
     const data = useTicketTypes();
-    const ticket = useTickets();
+    const ticket = useTicket();
     const navigate = useNavigate();
     const token = useToken();
     const handleSubmit = async(e) => {

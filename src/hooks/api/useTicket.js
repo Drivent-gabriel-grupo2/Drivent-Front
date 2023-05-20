@@ -9,7 +9,7 @@ export function useTicketTypes() {
     if (!ticketsTypes.loading) return ticketsTypes.data;
 }
 
-export function useTickets() {
+export function useTicket() {
     const token = useToken();
     const tickets = useAsync(() => getTickets(token));
 

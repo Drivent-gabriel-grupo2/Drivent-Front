@@ -44,7 +44,7 @@ export default function HotelCard({ hotel, setHotelId, selectedHotel, setSelecte
     return (
         <ConteinerCard onClick={() => cardClicked(hotel.id)} style={{ background: isSelected ? '#FFEED2' : '#EBEBEB' }}>
             <img src={hotel.image}></img>
-            <p>{hotel.name}</p>
+            <h1>{hotel.name}</h1>
             <h3>Tipos de acomodação:</h3>
             <h2>{string}</h2>
             <h3>Vagas disponíveis:</h3>
@@ -69,7 +69,7 @@ const ConteinerCard = styled.div`
         margin-top: 2px;
         margin-bottom: 10px;
     }
-    p {
+    h1 {
         font-family: 'Roboto';
         font-weight: 400;
         font-size: 20px;
