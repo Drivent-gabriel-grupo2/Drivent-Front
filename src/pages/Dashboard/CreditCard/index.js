@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import ConfirmedBox from '../../../components/ConfirmedBox';
 import CardBox from '../../../components/CreditCardBox';
-import { useTicketTypes, useTicket } from '../../../hooks/api/useTicket';
+import { useTicket } from '../../../hooks/api/useTicket';
+import styled from 'styled-components';
 
 export default function CreditCard() {
     const [confirmedPayment, setConfirmedPayment] = useState(false);
