@@ -11,13 +11,17 @@ export async function getBookings(token) {
 };
 
 export async function getUserBooking(token) {
-  const response = await api.get('/booking', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.data;
+  try{
+    const response = await api.get('/booking', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  
+    return response.data;
+  } catch {
+    return null;
+  }
 }
 
 export async function postBooking(token, body) {

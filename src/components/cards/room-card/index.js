@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { BiUser } from 'react-icons/bi';
+import { BsPerson, BsPersonFill } from 'react-icons/bs';
 
 export default function RoomCard({ id, name, capacity, booking, selectedRoom, setSelectedRoom }) {
     const isSelected = selectedRoom === id;
     function cardClicked(id) {
         setSelectedRoom(id);
-    };
+    }
     let allSpots = [];
     for (let i = 0; i < capacity; i++) {
         allSpots.push(1);
@@ -29,11 +29,9 @@ export default function RoomCard({ id, name, capacity, booking, selectedRoom, se
             <SingleCard style={{ background: '#E9E9E9' }}>
                 <h5>{name}</h5>
                 <p>
-                    {
-                        allSpots.map((item, index) => (
-                            <BiUser key={index} color='#8C8C8C'></BiUser>
-                        ))
-                    }
+                    {allSpots.map((_, index) => (
+                        <BsPersonFill key={index} color="#8C8C8C"></BsPersonFill>
+                    ))}
                 </p>
             </SingleCard>
         );
@@ -44,19 +42,15 @@ export default function RoomCard({ id, name, capacity, booking, selectedRoom, se
             <SingleCard onClick={() => cardClicked(id)} style={{ background: isSelected ? '#FFEED2' : 'white' }}>
                 <h5>{name}</h5>
                 <p>
-                    {
-                        selectingSpot.map((item, index) => (
-                            <BiUser key={index} color='#FF4791'></BiUser>
-                        ))
-                    }
-                    {
-                        availableSpotsWhenSelecting.map((item, index) => (
-                            <BiUser key={index} color='black'></BiUser>
-                        ))}
-                    {
-                        ocupiedSpots.map((item, index) => (
-                            <BiUser key={index} color="red"></BiUser>
-                        ))}
+                    {availableSpotsWhenSelecting.map((_, index) => (
+                        <BsPerson key={index} color="black"></BsPerson>
+                    ))}
+                    {selectingSpot.map((_, index) => (
+                        <BsPersonFill key={index} color="#FF4791"></BsPersonFill>
+                    ))}
+                    {ocupiedSpots.map((_, index) => (
+                        <BsPersonFill key={index} color="black"></BsPersonFill>
+                    ))}
                 </p>
             </SingleCard>
         );
@@ -66,14 +60,12 @@ export default function RoomCard({ id, name, capacity, booking, selectedRoom, se
         <SingleCard onClick={() => cardClicked(id)} style={{ background: isSelected ? '#FFEED2' : 'white' }}>
             <h5>{name}</h5>
             <p>
-                {
-                    availableSpots.map((item, index) => (
-                        <BiUser key={index} color={isSelected ? '#FF4791' : 'black'}></BiUser>
-                    ))}
-                {
-                    ocupiedSpots.map((item, index) => (
-                        <BiUser key={index} color="red"></BiUser>
-                    ))}
+                {availableSpots.map((_, index) => (
+                    <BsPerson key={index} color={isSelected ? '#FF4791' : 'black'}></BsPerson>
+                ))}
+                {ocupiedSpots.map((_, index) => (
+                    <BsPersonFill key={index} color="black"></BsPersonFill>
+                ))}
             </p>
         </SingleCard>
     );
@@ -83,14 +75,14 @@ const SingleCard = styled.div`
     display: flex;
     width: 190px;
     height: 45px;
-    border: 1px solid #CECECE;
+    border: 1px solid #cecece;
     border-radius: 10px;
     background-color: white;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
     padding: 0px 16px 0px 16px;
-    h5{
+    h5 {
         font-family: 'Roboto';
         font-style: normal;
         font-weight: 700;
