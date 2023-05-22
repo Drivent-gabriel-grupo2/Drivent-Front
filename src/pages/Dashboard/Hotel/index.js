@@ -1,13 +1,11 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import HotelCard from '../../../components/cards/hotel-card';
 import ReservedHotelCard from '../../../components/cards/reservedHotel-card';
 import RoomCard from '../../../components/cards/room-card';
 import { useHotel } from '../../../hooks/api/useHotel.js';
-import { useContext } from 'react';
-import TicketContext from '../../../contexts/TicketContext';
 import ErrorScreen from '../../../components/ErrorScreen';
-import { useTicket, useTicketTypes } from '../../../hooks/api/useTicket';
+import { useTicket } from '../../../hooks/api/useTicket';
 import useToken from '../../../hooks/useToken';
 import { postBooking, updateBooking } from '../../../services/bookingApi';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +17,6 @@ export default function Hotel() {
     const [selectedRoom, setSelectedRoom] = useState();
     const [tradeRoom, setTradeRoom] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
     const ticket = useTicket();
     const hotels = useHotel();
     const booking = useBooking();
@@ -35,7 +32,6 @@ export default function Hotel() {
             navigate('/dashboard/activities');
         } catch (e) {
             setLoading(false);
-            setError(true);
         }
     };
 
@@ -48,7 +44,6 @@ export default function Hotel() {
             navigate('/dashboard/activities');
         } catch (e) {
             setLoading(false);
-            setError(true);
         }
     };
 
@@ -78,13 +73,13 @@ export default function Hotel() {
     var bookedHotel;
     if (hotels && booking) {
         for (let i = 0; i < hotels.length; i++) {
-            if (hotels[i].id === booking.Room.hotelId) { bookedHotel = hotels[i]; }
+            if (hotels[i].id === booking.Room.hotelId) {
+                bookedHotel = hotels[i];
+            }
         }
-        console.log(bookedHotel);
     }
 
     if (booking && bookedHotel) {
-        console.log(booking.Room);
         return (
             <ConteinerPayment>
                 <Spacing>
@@ -92,35 +87,32 @@ export default function Hotel() {
                     <Spacing>
                         <p>Você já escolheu seu quarto:</p>
                         <UlHotel>
-                            <ReservedHotelCard
-                                hotel={bookedHotel}
-                                Room={booking.Room}
-                            />
+                            <ReservedHotelCard hotel={bookedHotel} Room={booking.Room} />
                         </UlHotel>
                         <Spacing>
                             <button onClick={() => setTradeRoom(true)}>TROCAR DE QUARTO</button>
                         </Spacing>
                         <Spacing>
-                            <UlRoom>{tradeRoom &&
-                                bookedHotel.Rooms.map((item, index) => (
-                                    <RoomCard
-                                        key={item.id}
-                                        id={item.id}
-                                        name={item.name}
-                                        capacity={item.capacity}
-                                        booking={item.Booking.length}
-                                        selectedRoom={selectedRoom}
-                                        setSelectedRoom={setSelectedRoom}
-                                    />
-                                ))
-                            }
+                            <UlRoom>
+                                {tradeRoom &&
+                                    bookedHotel.Rooms.map((item, index) => (
+                                        <RoomCard
+                                            key={item.id}
+                                            id={item.id}
+                                            name={item.name}
+                                            capacity={item.capacity}
+                                            booking={item.Booking.length}
+                                            selectedRoom={selectedRoom}
+                                            setSelectedRoom={setSelectedRoom}
+                                        />
+                                    ))}
                             </UlRoom>
                             <Spacing>
-                                {selectedRoom &&
-                                    (<button onClick={handleTradeRoom} disabled={loading}>
+                                {selectedRoom && (
+                                    <button onClick={handleTradeRoom} disabled={loading}>
                                         {loading ? 'Carregando' : 'RESERVAR QUARTO'}
-                                    </button>)
-                                }
+                                    </button>
+                                )}
                             </Spacing>
                         </Spacing>
                     </Spacing>
@@ -133,7 +125,6 @@ export default function Hotel() {
             <Spacing>
                 <span>Escolha de hotel e quarto</span>
                 <Spacing>
-
                     <p>Primeiro, escolha seu hotel</p>
                     <UlHotel>
                         {hotels &&
@@ -169,11 +160,11 @@ export default function Hotel() {
                 </Spacing>
             )}
             <Spacing>
-                {selectedRoom &&
-                    (<button onClick={handleSubmit} disabled={loading}>
+                {selectedRoom && (
+                    <button onClick={handleSubmit} disabled={loading}>
                         {loading ? 'Carregando' : 'RESERVAR QUARTO'}
-                    </button>)
-                }
+                    </button>
+                )}
             </Spacing>
         </ConteinerPayment>
     );

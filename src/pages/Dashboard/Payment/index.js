@@ -7,8 +7,6 @@ import Card from '../../../components/cards/card';
 import { postTicket } from '../../../services/ticktsApi';
 import useToken from '../../../hooks/useToken';
 import ErrorScreen from '../../../components/ErrorScreen';
-import TicketContext from '../../../contexts/TicketContext';
-import { useContext } from 'react';
 import { useEffect } from 'react';
 
 export default function Payment() {
@@ -18,7 +16,6 @@ export default function Payment() {
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const { setTicket, setTicketType } = useContext(TicketContext);
     const data = useTicketTypes();
     const ticket = useTicket();
     const navigate = useNavigate();
@@ -38,9 +35,6 @@ export default function Payment() {
 
     useEffect(() => {
         if (ticket) {
-            setTicket(ticket);
-            const ticketType = data?.find((item) => item.id === ticket.ticketTypeId);
-            setTicketType(ticketType);
             navigate('/dashboard/datacard');
         }
     }, [ticket, navigate]);

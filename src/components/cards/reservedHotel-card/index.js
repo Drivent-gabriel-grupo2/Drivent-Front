@@ -6,7 +6,7 @@ export default function ReservedHotelCard({ hotel, Room }) {
     
     return (
         <ConteinerCard style={{ background: '#FFEED2' }}>
-            <img src={hotel.image}></img>
+            <img alt="Imagem do hotel" src={hotel.image}></img>
             <h1>{hotel.name}</h1>
             <h3>Quarto reservado:</h3>
             <h2>{Room.name} ({roomType})</h2>
